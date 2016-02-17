@@ -1,0 +1,23 @@
+{
+  "name": "ibm_bluepages",
+  "version": "1.0.7",
+  "description": "Function List: \r 1. getNameByIntranetID(intranetID, callback)\r Description: To Get the name by the intranet ID.\r The parameter is intranetID(e.g: guojial@cn.ibm.com)",
+  "main": "bluepages.js",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "ldapjs": "^1.0.0",
+    "xmldom": "^0.1.19",
+    "xpath.js": "^1.0.6",
+    "nodegrass": "^0.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ibm",
+    "bluepages"
+  ],
+  "author": "Thomas Guo",
+  "license": "1.0"
+}
