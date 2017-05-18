@@ -5,14 +5,14 @@ var nodegrass = require('nodegrass');
 var colors = require('colors');
 
 //author: guojial@cn.ibm.com
-//version: v1.0.7
+//version: v1.1.4
 
 //first param: intranetID 
 module.exports.getNameByIntranetID = function (intranetID, callback) {
 
     var result;
     //console.log(("-----groupname-----"+groupname).blue);
-    nodegrass.get("http://faces.tap.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
+    nodegrass.get("https://bluepages.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
           //console.log(status);
           var doc = new domParser().parseFromString(data);
           //console.log(("-----attr-----"+select(doc, "//attr").length).blue);
@@ -40,7 +40,7 @@ getDnValue = function (intranetID, callback) {
 
     var result;
     //console.log(("-----groupname-----"+groupname).blue);
-    nodegrass.get("http://faces.tap.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
+    nodegrass.get("https://bluepages.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
           //console.log(status);
           var doc = new domParser().parseFromString(data);
           var nodes = select(doc, "//directory-entries/entry");
@@ -75,7 +75,7 @@ module.exports.authenticate = function(intranetID, password, callback) {
     //console.log(('uid: ' + uid).blue);
 
     var client = ldap.createClient({
-     url: 'ldap://bluepages.ibm.com:389'
+     url: 'ldaps://bluepages.ibm.com:636'
     });
 
     var opts = {
@@ -98,7 +98,7 @@ module.exports.authenticate = function(intranetID, password, callback) {
                   }});
             } else {
                 //console.log(("connected").blue);
-                client.search('c=cn,ou=bluepages,o=ibm.com', opts, function(error, search) {
+                client.search('ou=bluepages,o=ibm.com', opts, function(error, search) {
                     
                     //console.log(("opts" + opts.filter).blue);
 
@@ -150,7 +150,7 @@ getAttrValue = function (intranetID, attrName, callback) {
 
     var result;
     //console.log(("-----groupname-----"+groupname).blue);
-    nodegrass.get("http://faces.tap.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
+    nodegrass.get("https://bluepages.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
           //console.log(status);
           var doc = new domParser().parseFromString(data);
           var nodes = select(doc, "//directory-entries/entry/attr");
@@ -184,7 +184,7 @@ module.exports.getPhotoByIntranetID = function(intranetID, callback) {
     if (uidValue==false) {
             return callback(false);
         }
-      result = "http://faces.tap.ibm.com:10000/image/" + uidValue +".jpg";    
+      result = "https://w3.ibm.com/bluepages/photo/ImageServlet.wss/" + uidValue +".jpg";    
       callback(result);
   });
 }
@@ -193,7 +193,7 @@ module.exports.getPhotoByIntranetID = function(intranetID, callback) {
 module.exports.getPersonInfoByIntranetID = function(intranetID, callback) {
 
     var result;
-    nodegrass.get("http://faces.tap.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
+    nodegrass.get("https://bluepages.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
           var doc = new domParser().parseFromString(data);
           if (select(doc, "//attr").length > 0) {
       var nodeGivenname = select(doc, "//attr[@name='givenname']/value");
@@ -205,7 +205,7 @@ module.exports.getPersonInfoByIntranetID = function(intranetID, callback) {
             var userName = nodeGivennameValue + " " + snValue;
           
             nodeUidValue = select(doc, "//attr[@name='uid']/value/text()");
-            var userPhoto = "http://faces.tap.ibm.com:10000/image/" + nodeUidValue +".jpg";
+            var userPhoto = "https://w3.ibm.com/bluepages/photo/ImageServlet.wss/" + nodeUidValue +".jpg";
       
             var userJobrespons;
             if (select(doc, "//attr[@name='jobresponsibilities']").length > 0) {
@@ -228,12 +228,28 @@ module.exports.getPersonInfoByIntranetID = function(intranetID, callback) {
               userNotesemail = "";
             }
 
+            var userEmail;
+            if (select(doc, "//attr[@name='mail']").length > 0) {
+              userEmail = select(doc, "//attr[@name='mail']/value/text()")[0].data;
+            } else {
+              userEmail = "";
+            }
+
+            var userManager;
+
+            if (select(doc, "//attr[@name='manager']").length > 0) {
+              userManager = select(doc, "//attr[@name='manager']/value/text()")[0].data;
+            } else {
+              userManager = "";
+            }            
+
             result = {
               "userName" : userName,
               "userPhoto" : userPhoto,
               "userJobrespons" : userJobrespons,
               "userTelephonenumber" : userTelephonenumber,
-              "userNotesemail" : userNotesemail
+              "userNotesemail" : userNotesemail,
+              "userEmail" : userEmail
             }
 
           } else {
