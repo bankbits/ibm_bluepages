@@ -1,6 +1,6 @@
 {
   "name": "ibm_bluepages",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Function List: \r 1. getNameByIntranetID(intranetID, callback)\r Description: To Get the name by the intranet ID.\r The parameter is intranetID(e.g: guojial@cn.ibm.com)",
   "main": "bluepages.js",
   "dependencies": {
@@ -18,11 +18,11 @@
     "ibm",
     "bluepages"
   ],
-  "author": "Thomas Guo",
-  "license": "1.0",
+  "author": "thomasguo",
+  "license": "IPL-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ThomasIBM/ibm_bluepages"
+    "url": "git+https://github.com/ThomasIBM/ibm_bluepages.git"
   },
   "bugs": {
     "url": "https://github.com/ThomasIBM/ibm_bluepages/issues"
