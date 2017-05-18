@@ -5,7 +5,7 @@ var nodegrass = require('nodegrass');
 var colors = require('colors');
 
 //author: guojial@cn.ibm.com
-//version: v1.1.4
+//version: v1.1.5
 
 //first param: intranetID 
 module.exports.getNameByIntranetID = function (intranetID, callback) {
@@ -176,15 +176,15 @@ getAttrValue = function (intranetID, attrName, callback) {
     });
 };
 
-//http://faces.tap.ibm.com:10000/image/xxx.jpg
+//w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/guojial@cn.ibm.com?type=bp
 module.exports.getPhotoByIntranetID = function(intranetID, callback) {
 
   var result;
-  getAttrValue(intranetID, "uid", function(uidValue) {
-    if (uidValue==false) {
+  getAttrValue(intranetID, "preferredidentity", function(preferredidentityValue) {
+    if (preferredidentityValue==false) {
             return callback(false);
         }
-      result = "https://w3.ibm.com/bluepages/photo/ImageServlet.wss/" + uidValue +".jpg";    
+      result = "https://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/" + preferredidentityValue +".jpg";    
       callback(result);
   });
 }
@@ -196,7 +196,7 @@ module.exports.getPersonInfoByIntranetID = function(intranetID, callback) {
     nodegrass.get("https://bluepages.ibm.com/BpHttpApisv3/slaphapi?ibmperson/mail=" + intranetID + ".list/byxml", function(data,status,headers){
           var doc = new domParser().parseFromString(data);
           if (select(doc, "//attr").length > 0) {
-      var nodeGivenname = select(doc, "//attr[@name='givenname']/value");
+            var nodeGivenname = select(doc, "//attr[@name='givenname']/value");
             var nodeGivennameValue = nodeGivenname[0].firstChild.data;
 
             var nodeSn = select(doc, "//attr[@name='sn']/value");
@@ -204,8 +204,8 @@ module.exports.getPersonInfoByIntranetID = function(intranetID, callback) {
 
             var userName = nodeGivennameValue + " " + snValue;
           
-            nodeUidValue = select(doc, "//attr[@name='uid']/value/text()");
-            var userPhoto = "https://w3.ibm.com/bluepages/photo/ImageServlet.wss/" + nodeUidValue +".jpg";
+            nodePreferredidentityValue = select(doc, "//attr[@name='preferredidentity']/value/text()");
+            var userPhoto = "https://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/" + nodePreferredidentityValue +"?type=bp";
       
             var userJobrespons;
             if (select(doc, "//attr[@name='jobresponsibilities']").length > 0) {
