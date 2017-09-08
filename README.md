@@ -40,5 +40,5 @@ Watson Services, please ask a question by mail, very happy you used the module.
 
 ## License
 
-This library is licensed under Apache 2.0. Full license text is
+This library is licensed under IBM Public License v1.0. Full license text is
 available in [LICENSE](https://spdx.org/licenses/IPL-1.0.html).
