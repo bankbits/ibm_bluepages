@@ -5,6 +5,7 @@ The Module help developer working on an internal application based on Nodejs run
 ## Table of Contents
   * [Installation](#installation)
     * [NPM](#npm)
+  * [Example](#nodejs)
   * [Questions](#questions)
 
 ## Installation
@@ -12,7 +13,24 @@ The Module help developer working on an internal application based on Nodejs run
 ##### NPM
 
 ```npm
-'npm install ibm_bluepages'
+npm install ibm_bluepages
+```
+
+## Example
+
+```nodejs
+var bluepage = require("ibm_bluepages");
+
+bluepage.authenticate("your id","your password", function(value) {
+
+		if (value == false) {
+			console.log("your id or password not correct!");
+		}
+
+		if (value == true) {
+			console.log("you have login");
+		}
+});
 ```
 
 ## Questions
