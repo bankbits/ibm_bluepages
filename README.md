@@ -5,7 +5,7 @@ The Module help developer working on an internal application based on Nodejs run
 ## Table of Contents
   * [Installation](#installation)
     * [NPM](#npm)
-  * [Example](#nodejs)
+  * [Usage](#usage)
   * [Questions](#questions)
 
 ## Installation
@@ -16,7 +16,7 @@ The Module help developer working on an internal application based on Nodejs run
 npm install ibm_bluepages
 ```
 
-## Example
+## Usage
 
 ```nodejs
 var bluepage = require("ibm_bluepages");
